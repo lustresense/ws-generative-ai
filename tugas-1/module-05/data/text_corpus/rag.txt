@@ -1,0 +1,1 @@
+RAG retrieves relevant documents. It then gives the context to a language model.

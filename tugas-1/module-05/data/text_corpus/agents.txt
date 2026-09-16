@@ -1,0 +1,1 @@
+Agents can reason, call tools, observe results, and continue toward a goal.
