@@ -4,7 +4,7 @@ Repository ini digunakan untuk pengumpulan tugas Workshop Python Gen AI. Isi uta
 
 ## Tugas
 
-- [Tugas 1 - Python Core for AI](./tugas-1/README.md)
+- [Tugas 1 - Python Core for AI](./tugas-1)
 
 ## Referensi
 
