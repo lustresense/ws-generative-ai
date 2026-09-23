@@ -5,7 +5,3 @@ Repository ini digunakan untuk pengumpulan tugas Workshop Python Gen AI. Isi uta
 ## Tugas
 
 - [Tugas 1 - Python Core for AI](./tugas-1)
-
-## Referensi
-
-- [Modul Python Gen AI.pdf](./Modul%20Python%20Gen%20AI.pdf)
