@@ -5,3 +5,12 @@ Repository ini digunakan untuk pengumpulan tugas Workshop Python Gen AI. Isi uta
 ## Tugas
 
 - [Tugas 1 - Python Core for AI](./tugas-1)
+
+## Identitas
+
+| Data | Keterangan |
+|---|---|
+| Nama | FARCHAN DEANO MUHAMMAD |
+| NRP | 5323600012 |
+| Program Studi | Teknologi Rekayasa Multimedia |
+| Institusi | Politeknik Elektronika Negeri Surabaya (PENS) |
