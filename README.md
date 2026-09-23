@@ -9,8 +9,6 @@ Repository ini digunakan untuk pengumpulan tugas Workshop Python Gen AI. Isi uta
 | Nama | FARCHAN DEANO MUHAMMAD |
 | NRP | 5323600012 |
 | Program Studi | Teknologi Rekayasa Multimedia |
-| Institusi | Politeknik Elektronika Negeri Surabaya (PENS) |
-
 
 ## Tugas
 
