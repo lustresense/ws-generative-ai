@@ -1,7 +1,6 @@
 # Tugas 1 - Python Core for AI
 
-Folder ini berisi pengumpulan Tugas 1 dari Workshop Python Gen AI, berdasarkan materi Phase 1 - Python Core for AI pada [Modul Python Gen AI.pdf](../Modul%20Python%20Gen%20AI.pdf).
-
+Folder ini berisi pengumpulan Tugas 1 dari Workshop Python Gen AI, berdasarkan materi Phase 1 - Python Core for AI 
 ## Identitas
 
 | Data | Keterangan |
