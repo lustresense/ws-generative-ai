@@ -32,15 +32,6 @@ Implementasi provider dan model:
 ```text
 tugas-2/
 |- README.md
-|- requirements.txt
-|- .env.example
-|- preflight.py
-|- RUN_TUGAS_2.bat
-|- RUN_ONE_BY_ONE.bat
-|- RUN_ONE_BY_ONE.md
-|- run_tugas_2.py
-|- run_one_by_one.py
-|- auto_run_capture.py
 |- module-06/
 |  |- src/
 |  `- output/
@@ -69,12 +60,4 @@ Atau masuk ke folder source module terkait lalu jalankan file Python-nya:
 ```powershell
 cd ./tugas-2/module-06/src
 python .\6_2a_anthropic_basic_message.py
-```
-
-Atau jalankan runner otomatis / one-by-one:
-
-```powershell
-.\tugas-2\RUN_TUGAS_2.bat
-# atau
-.\tugas-2\RUN_ONE_BY_ONE.bat
 ```
