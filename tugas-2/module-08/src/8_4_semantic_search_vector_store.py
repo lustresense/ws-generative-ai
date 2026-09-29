@@ -1,0 +1,96 @@
+import numpy as np
+from dataclasses import dataclass, field
+from typing import Optional
+from openai import OpenAI
+
+from pathlib import Path
+import os
+from dotenv import load_dotenv, find_dotenv
+
+ENV_FILE = find_dotenv(filename=".env", usecwd=True)
+if not ENV_FILE:
+    raise RuntimeError(".env tidak ditemukan. Copy .env.example menjadi .env di folder tugas-2.")
+load_dotenv(ENV_FILE)
+
+
+openai_client = OpenAI(api_key=os.environ["GEMINI_API_KEY"], base_url=os.environ["GEMINI_OPENAI_BASE_URL"])
+EMBED_MODEL = os.getenv("GEMINI_EMBEDDING_MODEL", "gemini-embedding-2")
+
+@dataclass
+class Document:
+    id: str
+    text: str
+    metadata: dict = field(default_factory=dict)
+    embedding: Optional[np.ndarray] = field(default=None, repr=False)
+
+@dataclass
+class SearchResult:
+    document: Document
+    score: float
+    rank: int
+
+def embed_batch(texts: list[str], model: str = EMBED_MODEL) -> np.ndarray:
+    response = openai_client.embeddings.create(input=texts, model=model)
+    vectors = sorted(response.data, key=lambda e: e.index if e.index is not None else 0)
+    return np.array([v.embedding for v in vectors], dtype=np.float32)
+
+class VectorStore:
+    def __init__(self, embed_model: str = EMBED_MODEL):
+        self.embed_model = embed_model
+        self._documents: list[Document] = []
+        self._matrix: Optional[np.ndarray] = None
+
+    def add_documents(self, documents: list[Document]) -> None:
+        vectors = embed_batch([d.text for d in documents], model=self.embed_model)
+        norms = np.linalg.norm(vectors, axis=1, keepdims=True)
+        normed = (vectors / np.where(norms == 0, 1, norms)).astype(np.float32)
+        for doc, vec in zip(documents, normed):
+            doc.embedding = vec
+            self._documents.append(doc)
+        self._matrix = np.array([d.embedding for d in self._documents], dtype=np.float32)
+
+    def search(self, query: str, k: int = 5) -> list[SearchResult]:
+        if self._matrix is None or not self._documents:
+            raise RuntimeError("No documents indexed yet.")
+        q_vec = embed_batch([query], model=self.embed_model)[0]
+        q_norm = np.linalg.norm(q_vec)
+        if q_norm == 0:
+            return []
+        q_vec = (q_vec / q_norm).astype(np.float32)
+        scores = self._matrix @ q_vec
+        k = min(k, len(self._documents))
+        top_idx = np.argsort(scores)[::-1][:k]
+        return [SearchResult(self._documents[int(i)], float(scores[i]), rank + 1) for rank, i in enumerate(top_idx)]
+
+    @property
+    def size(self) -> int:
+        return len(self._documents)
+
+CORPUS = [
+    Document("d01", "Retrieval-Augmented Generation (RAG) combines information retrieval with language model generation to answer questions using external knowledge."),
+    Document("d02", "Vector databases store high-dimensional embeddings and enable fast approximate nearest-neighbour search using algorithms like HNSW and IVF."),
+    Document("d03", "Fine-tuning adapts a pre-trained language model to a specific task by continuing training on a curated dataset with task-specific examples."),
+    Document("d04", "Prompt engineering involves designing and optimising input prompts to guide language models toward producing the desired output."),
+    Document("d05", "LangChain is a Python framework that provides abstractions for building applications with large language models, including chains, agents, and memory."),
+    Document("d06", "Cosine similarity measures the angle between two vectors and is the standard metric for comparing text embeddings in semantic search."),
+    Document("d07", "RLHF (Reinforcement Learning from Human Feedback) aligns language models with human preferences by training a reward model on human rankings."),
+    Document("d08", "Chunking strategies for RAG include fixed-size chunks, sentence-aware splits, and recursive character splitting with configurable overlap."),
+    Document("d09", "The transformer architecture uses self-attention mechanisms to model relationships between all tokens in a sequence simultaneously."),
+    Document("d10", "Agents use language models as a reasoning engine, enabling them to plan multi-step tasks, call tools, and take actions based on observations."),
+]
+
+print("=" * 60)
+print("8.4 - SEMANTIC SEARCH / VECTOR STORE")
+print("=" * 60)
+store = VectorStore()
+store.add_documents(CORPUS)
+print(f"Index now contains {store.size} documents.")
+QUERIES = [
+    "How does RAG work?",
+    "What algorithms do vector databases use?",
+    "How do I split documents for embedding?",
+]
+for query in QUERIES:
+    print(f"\nQuery: {query!r}")
+    for r in store.search(query, k=3):
+        print(f" [{r.rank}] score={r.score:.4f} | {r.document.text[:80]}...")

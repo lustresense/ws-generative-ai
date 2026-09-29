@@ -1,0 +1,1 @@
+Streaming shows tokens as generated. User reads while model thinks—latency feels near-zero. Without streaming, user waits full generation time staring at blank screen. Perceived speed beats actual speed.

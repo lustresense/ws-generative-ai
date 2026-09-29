@@ -1,0 +1,19 @@
+{
+  "templates": {
+    "qa": {
+      "name": "qa",
+      "system": "You are a {domain} expert.",
+      "user": "Question: {question}",
+      "version": "1.2"
+    },
+    "summary": {
+      "name": "summary",
+      "system": "You summarize technical text.",
+      "user": "Summarize: {document}",
+      "version": "1.0"
+    }
+  },
+  "last_eval_version": {
+    "qa": "1.2"
+  }
+}

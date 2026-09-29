@@ -13,3 +13,4 @@ Repository ini digunakan untuk pengumpulan tugas Workshop Python Gen AI. Isi uta
 ## Tugas
 
 - [Tugas 1 - Python Core for AI](./tugas-1)
+- [Tugas 2 - LLM APIs & Prompting](./tugas-2)
